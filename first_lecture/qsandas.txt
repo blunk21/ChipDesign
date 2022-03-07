@@ -1,0 +1,42 @@
+1.
+	-freeze
+		Freezes the item at the specified value until it is forced again or until it is unforced with
+		a noforce command (CR-204). Optional.
+	-drive
+		Attaches a driver to the item and drives the specified value until the item is forced again
+		or until it is unforced with a noforce command (CR-204). Optional.
+		This option is illegal for unresolved signals.
+	-deposit
+		Sets the item to the specified value. The value remains until there is a subsequent driver
+		transaction, or until the item is forced again, or until it is unforced with a noforce
+		command (CR-204). Optional.
+		If one of the -freeze, -drive, or -deposit options is not used, then -freeze is the default
+		for unresolved items and -drive is the default for resolved items.
+		If you prefer -freeze as the default for resolved and unresolved VHDL signals, change
+		the default force kind in the DefaultForceKind (UM-623) preference variable.
+	-cancel <time>
+		Cancels the force command at the specified <time>. The time is relative to the current
+		time unless an absolute time is specified by preceding the value with the character @.
+		Cancellation occurs at the last simulation delta cycle of a time unit. A value of zero
+		cancels the force at the end of the current time period. Optional.
+	-repeat <time>
+		Repeats the force command, where <time> is the time at which to start repeating the
+		cycle. The time is relative to the current time. A repeating force command will force avalue before other non-repeating force commands that occur in the same time step.
+		Optional
+
+2.
+
+	1. "vlib" - creating working directory
+	2. do compile.do Compiling (Entities,architectures,config)
+	3. do sim.do simulating
+
+3.
+	
+	Entities,architectures,config
+
+4.
+	Because following a general library structure can help working with different software e.g. CAD softwares.
+
+5. 
+	
+	50-50%?

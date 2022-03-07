@@ -1,0 +1,89 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dE:/third_lecture/design/combinational/msim
+Edecoder
+w1646044961
+Z0 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z1 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z2 dZ:/third_lecture/design/combinational/msim
+8../vhdl/decoder_.vhd
+F../vhdl/decoder_.vhd
+l0
+L4
+VATK9N@Y0K<Bj33JO^n`n93
+!s100 mX7gHB=LD;0S3SooDPQ^;2
+Z3 OV;C;10.5b;63
+32
+!s110 1646560046
+!i10b 1
+!s108 1646560046.000000
+!s90 -reportprogress|300|../vhdl/decoder_.vhd|
+!s107 ../vhdl/decoder_.vhd|
+!i113 1
+Z4 tExplicit 1 CvgOpt 0
+Artl
+w1646560040
+DEx4 work 7 decoder 0 22 ATK9N@Y0K<Bj33JO^n`n93
+R0
+R1
+8../vhdl/decoder_rtl.vhd
+F../vhdl/decoder_rtl.vhd
+l8
+L4
+VP6F2Z2k2M_?2LaeFgn^_A2
+!s100 6ME;dF1GTT;1aH9ZdVh0a2
+R3
+32
+!s110 1646560047
+!i10b 1
+!s108 1646560047.000000
+!s90 -reportprogress|300|../vhdl/decoder_rtl.vhd|
+!s107 ../vhdl/decoder_rtl.vhd|
+!i113 1
+R4
+Etb_decoder
+Z5 w1646045803
+Z6 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+R0
+R1
+R2
+Z7 8../tb/tb_decoder_sim.vhd
+Z8 F../tb/tb_decoder_sim.vhd
+l0
+L4
+VLA6jMFfE;k2Zl_D9FoXW01
+!s100 ^a^YaI@>izE1<U4hW7[<R2
+R3
+32
+Z9 !s110 1646560048
+!i10b 1
+Z10 !s108 1646560048.000000
+Z11 !s90 -reportprogress|300|../tb/tb_decoder_sim.vhd|
+Z12 !s107 ../tb/tb_decoder_sim.vhd|
+!i113 1
+R4
+Asim
+R6
+R0
+R1
+Z13 DEx4 work 10 tb_decoder 0 22 LA6jMFfE;k2Zl_D9FoXW01
+l21
+L6
+Z14 VCboMQMH]7549Z7jXRMFdf0
+Z15 !s100 KYO1cDbRBVBoR[0:A:U[Q1
+R3
+32
+R9
+!i10b 1
+R10
+R11
+R12
+!i113 1
+R4

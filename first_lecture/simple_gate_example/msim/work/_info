@@ -1,0 +1,115 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/first_lecture/simple_gate_example/msim
+Etb_xorgate
+w1645093461
+Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z2 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+8../tb/tb_xorgate_.vhd
+F../tb/tb_xorgate_.vhd
+l0
+L4
+VegNei4b^NF<U`jD9E^?kL1
+!s100 :_eac<oCcRMG88G2RP_I@1
+Z3 OV;C;10.5b;63
+32
+Z4 !s110 1645095218
+!i10b 1
+Z5 !s108 1645095218.000000
+!s90 -reportprogress|300|../tb/tb_xorgate_.vhd|
+!s107 ../tb/tb_xorgate_.vhd|
+!i113 1
+Z6 tExplicit 1 CvgOpt 0
+Asim
+w1645095212
+Z7 DEx4 work 10 tb_xorgate 0 22 egNei4b^NF<U`jD9E^?kL1
+R1
+R2
+8../tb/tb_xorgate_sim.vhd
+F../tb/tb_xorgate_sim.vhd
+l16
+L4
+VbH_`J5hMCPmn5zdgRB]2h1
+!s100 N5RN67j>`j;BU3jN1I?ie2
+R3
+32
+Z8 !s110 1645095219
+!i10b 1
+R5
+!s90 -reportprogress|300|../tb/tb_xorgate_sim.vhd|
+!s107 ../tb/tb_xorgate_sim.vhd|
+!i113 1
+R6
+Ctb_xorgate_sim_cfg
+etb_xorgate
+asim
+Z9 DEx4 work 7 xorgate 0 22 RdGz9ci5XgCLTVooCXhPJ1
+DAx4 work 10 tb_xorgate 3 sim 22 bH_`J5hMCPmn5zdgRB]2h1
+R1
+R2
+R7
+w1645093820
+R0
+8../tb/tb_xorgate_sim_cfg.vhd
+F../tb/tb_xorgate_sim_cfg.vhd
+l0
+L1
+VAj51WT_=0X<`0J?[`j:A43
+!s100 d:f[^8Z5K06bWUPGJ[7>U2
+R3
+32
+R8
+!i10b 0
+!s108 1645095219.000000
+!s90 -reportprogress|300|../tb/tb_xorgate_sim_cfg.vhd|
+!s107 ../tb/tb_xorgate_sim_cfg.vhd|
+!i113 1
+R6
+Exorgate
+w1645093177
+R1
+R2
+R0
+8../vhdl/xorgate_.vhd
+F../vhdl/xorgate_.vhd
+l0
+L6
+VRdGz9ci5XgCLTVooCXhPJ1
+!s100 3?Vn9bUPd>T_5W=Yl[=z00
+R3
+32
+R4
+!i10b 1
+R5
+!s90 -reportprogress|300|../vhdl/xorgate_.vhd|
+!s107 ../vhdl/xorgate_.vhd|
+!i113 1
+R6
+Artl
+w1645093280
+R9
+R1
+R2
+8../vhdl/xorgate_rtl.vhd
+F../vhdl/xorgate_rtl.vhd
+l5
+L4
+VCzAJ8GdE=JlJLcW?B2R^I1
+!s100 lZV2HFNN[U=RJZIH8P<gA3
+R3
+32
+R4
+!i10b 1
+R5
+!s90 -reportprogress|300|../vhdl/xorgate_rtl.vhd|
+!s107 ../vhdl/xorgate_rtl.vhd|
+!i113 1
+R6

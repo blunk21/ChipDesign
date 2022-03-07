@@ -1,0 +1,89 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/second_lecture/orai/vectorgates/msim
+Etb_vectorgate
+Z1 w1645960164
+Z2 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+Z5 8../tb/tb_vectorgate_.vhd
+Z6 F../tb/tb_vectorgate_.vhd
+l0
+L5
+VfSNb[=[2S4A:N5UAl<`6M0
+!s100 BaGi^Q]l7FSJnH;V5:O:X3
+Z7 OV;C;10.5b;63
+32
+Z8 !s110 1645960320
+!i10b 1
+Z9 !s108 1645960320.000000
+Z10 !s90 -reportprogress|300|../tb/tb_vectorgate_.vhd|
+Z11 !s107 ../tb/tb_vectorgate_.vhd|
+!i113 1
+Z12 tExplicit 1 CvgOpt 0
+Asim
+R2
+R3
+R4
+Z13 DEx4 work 13 tb_vectorgate 0 22 fSNb[=[2S4A:N5UAl<`6M0
+l27
+L7
+Z14 V[B6_I0SdSeI=BfgboVmT^1
+Z15 !s100 Cm;2KkE0nO^3`Y3g5A1lS1
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+Evectorgate
+w1645959422
+R3
+R4
+R0
+8../vhdl/vectorgate_.vhd
+F../vhdl/vectorgate_.vhd
+l0
+L4
+VTB8lKN3BBl_NcPZ>BL5:g3
+!s100 Z1IMYID]IFW^RKVHIIPmQ2
+R7
+32
+!s110 1645960319
+!i10b 1
+Z16 !s108 1645960319.000000
+!s90 -reportprogress|300|../vhdl/vectorgate_.vhd|
+!s107 ../vhdl/vectorgate_.vhd|
+!i113 1
+R12
+Artl
+w1645959484
+R3
+R4
+DEx4 work 10 vectorgate 0 22 TB8lKN3BBl_NcPZ>BL5:g3
+8../vhdl/vectorgate_rtl.vhd
+F../vhdl/vectorgate_rtl.vhd
+l4
+L1
+VMUia6AXjJmFZ[Cd]Ja9Uo3
+!s100 T3:aPd:>aBOh0E_`NL<^b3
+R7
+32
+R8
+!i10b 1
+R16
+!s90 -reportprogress|300|../vhdl/vectorgate_rtl.vhd|
+!s107 ../vhdl/vectorgate_rtl.vhd|
+!i113 1
+R12

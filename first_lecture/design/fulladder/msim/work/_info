@@ -1,0 +1,267 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/first_lecture/design/fulladder/msim
+Efulladder
+w1074087780
+Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z2 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+8../vhdl/fulladder_.vhd
+F../vhdl/fulladder_.vhd
+l0
+L42
+VTZ<8mCEORCPabVAZKPn322
+!s100 ]2Y?zPaRY@m;O2e=QHA5e0
+Z3 OV;C;10.5b;63
+32
+Z4 !s110 1645004904
+!i10b 1
+Z5 !s108 1645004904.000000
+!s90 -reportprogress|300|../vhdl/fulladder_.vhd|
+!s107 ../vhdl/fulladder_.vhd|
+!i113 1
+Z6 tExplicit 1 CvgOpt 0
+Astruc
+w1074087956
+Z7 DEx4 work 9 fulladder 0 22 TZ<8mCEORCPabVAZKPn322
+R1
+R2
+8../vhdl/fulladder_struc.vhd
+F../vhdl/fulladder_struc.vhd
+l62
+L42
+Ve;TG6Kd[fgUhWn5XNIKR30
+!s100 ;ca?TmicDf7eLRn:c3>L;1
+R3
+32
+Z8 !s110 1645004905
+!i10b 1
+R5
+!s90 -reportprogress|300|../vhdl/fulladder_struc.vhd|
+!s107 ../vhdl/fulladder_struc.vhd|
+!i113 1
+R6
+Cfulladder_struc_cfg
+efulladder
+astruc
+Z9 DEx4 work 6 orgate 0 22 Z>WRGE@5lRLhd0b8;ET`I3
+Z10 DEx4 work 9 halfadder 0 22 j6FJCX2<H7zoEikd]MiNn0
+DAx4 work 9 fulladder 5 struc 22 e;TG6Kd[fgUhWn5XNIKR30
+R1
+R2
+R7
+w1074087942
+R0
+8../vhdl/fulladder_struc_cfg.vhd
+F../vhdl/fulladder_struc_cfg.vhd
+l0
+L39
+VZ:_O5UU?26=;M7_eS856:2
+!s100 dGzV_iYQf@3L60eF_XaV71
+R3
+32
+R8
+!i10b 0
+Z11 !s108 1645004905.000000
+!s90 -reportprogress|300|../vhdl/fulladder_struc_cfg.vhd|
+!s107 ../vhdl/fulladder_struc_cfg.vhd|
+!i113 1
+R6
+Ehalfadder
+Z12 w1074087972
+R1
+R2
+R0
+8../vhdl/halfadder_.vhd
+F../vhdl/halfadder_.vhd
+l0
+L42
+Vj6FJCX2<H7zoEikd]MiNn0
+!s100 >1g<7OnYeS^4>g1TJUbIV1
+R3
+32
+R4
+!i10b 1
+!s108 1645004903.000000
+!s90 -reportprogress|300|../vhdl/halfadder_.vhd|
+!s107 ../vhdl/halfadder_.vhd|
+!i113 1
+R6
+Artl
+R10
+R1
+R2
+8../vhdl/halfadder_rtl.vhd
+F../vhdl/halfadder_rtl.vhd
+l43
+L42
+V5`b2>6QJPWjizA9L5=lY31
+!s100 GX0g:^`fY96KE<DTAWnlo3
+R3
+32
+R4
+!i10b 1
+R5
+!s90 -reportprogress|300|../vhdl/halfadder_rtl.vhd|
+!s107 ../vhdl/halfadder_rtl.vhd|
+!i113 1
+R6
+Chalfadder_rtl_cfg
+ehalfadder
+artl
+DAx4 work 9 halfadder 3 rtl 22 5`b2>6QJPWjizA9L5=lY31
+R1
+R2
+R10
+w1074087836
+R0
+8../vhdl/halfadder_rtl_cfg.vhd
+F../vhdl/halfadder_rtl_cfg.vhd
+l0
+L39
+V9C@^g8a4Azb0>jJd7IC4`2
+!s100 76]@<EjfV@2<j[>b5=bM<3
+R3
+32
+R4
+!i10b 0
+R5
+!s90 -reportprogress|300|../vhdl/halfadder_rtl_cfg.vhd|
+!s107 ../vhdl/halfadder_rtl_cfg.vhd|
+!i113 1
+R6
+Eorgate
+Z13 w1074087820
+R1
+R2
+R0
+8../vhdl/orgate_.vhd
+F../vhdl/orgate_.vhd
+l0
+L42
+VZ>WRGE@5lRLhd0b8;ET`I3
+!s100 b55lWW=[f4UQmjFUoT0nY0
+R3
+32
+R4
+!i10b 1
+R5
+!s90 -reportprogress|300|../vhdl/orgate_.vhd|
+!s107 ../vhdl/orgate_.vhd|
+!i113 1
+R6
+Artl
+R9
+R1
+R2
+8../vhdl/orgate_rtl.vhd
+F../vhdl/orgate_rtl.vhd
+l43
+L42
+V6mekM>K<i4:;LMz19Kbe02
+!s100 jOA23b570P@ojZ7S:aGnk1
+R3
+32
+R4
+!i10b 1
+R5
+!s90 -reportprogress|300|../vhdl/orgate_rtl.vhd|
+!s107 ../vhdl/orgate_rtl.vhd|
+!i113 1
+R6
+Corgate_rtl_cfg
+eorgate
+artl
+DAx4 work 6 orgate 3 rtl 22 6mekM>K<i4:;LMz19Kbe02
+R1
+R2
+R9
+w1074087762
+R0
+8../vhdl/orgate_rtl_cfg.vhd
+F../vhdl/orgate_rtl_cfg.vhd
+l0
+L39
+VVln_VW50im8SmzhY:nm3E0
+!s100 B7Ba@5LPH=C@]<68;Y2l:0
+R3
+32
+R4
+!i10b 0
+R5
+!s90 -reportprogress|300|../vhdl/orgate_rtl_cfg.vhd|
+!s107 ../vhdl/orgate_rtl_cfg.vhd|
+!i113 1
+R6
+Etb_fulladder
+Z14 w1074088044
+R1
+R2
+R0
+8../tb/tb_fulladder_.vhd
+F../tb/tb_fulladder_.vhd
+l0
+L42
+VSR?1gAaF3FChoBJYOVGY=2
+!s100 z@mJV?Xb_f6BEiQd2_Sco0
+R3
+32
+R8
+!i10b 1
+R11
+!s90 -reportprogress|300|../tb/tb_fulladder_.vhd|
+!s107 ../tb/tb_fulladder_.vhd|
+!i113 1
+R6
+Asim
+Z15 DEx4 work 12 tb_fulladder 0 22 SR?1gAaF3FChoBJYOVGY=2
+R1
+R2
+8../tb/tb_fulladder_sim.vhd
+F../tb/tb_fulladder_sim.vhd
+l59
+L42
+V`=B5Da2U;]NeG8oo6cQDL3
+!s100 YH4JK=?mL<aRGkO9_TRCz2
+R3
+32
+R8
+!i10b 1
+R11
+!s90 -reportprogress|300|../tb/tb_fulladder_sim.vhd|
+!s107 ../tb/tb_fulladder_sim.vhd|
+!i113 1
+R6
+Ctb_fulladder_sim_cfg
+etb_fulladder
+asim
+R7
+DCx4 work 19 fulladder_struc_cfg 0 22 Z:_O5UU?26=;M7_eS856:2
+DAx4 work 12 tb_fulladder 3 sim 22 `=B5Da2U;]NeG8oo6cQDL3
+R15
+R1
+R2
+w1074088012
+R0
+8../tb/tb_fulladder_sim_cfg.vhd
+F../tb/tb_fulladder_sim_cfg.vhd
+l0
+L41
+VNTA:QCTXj9F@ba7FkK98]2
+!s100 @^Jen[=P=g0dz>n=]jJa]1
+R3
+32
+R8
+!i10b 1
+R11
+!s90 -reportprogress|300|../tb/tb_fulladder_sim_cfg.vhd|
+!s107 ../tb/tb_fulladder_sim_cfg.vhd|
+!i113 1
+R6
