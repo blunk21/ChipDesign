@@ -6,7 +6,7 @@
 -- Author      : User Name <user.email@user.company.com>
 -- Company     : User Company Name
 -- Created     : Mon Mar  7 11:29:14 2022
--- Last update : Mon Mar  7 12:07:47 2022
+-- Last update : Mon Mar 14 10:36:52 2022
 -- Platform    : Default Part Number
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 --------------------------------------------------------------------------------
@@ -36,8 +36,9 @@ architecture rtl of jkflop is
 signal current_outp : std_logic;
 
 begin
+	q_out <= current_outp;
+	jk_ff : process (rst,clk)
 
-	jk_ff : process
 	begin
 		if rst = '1' then
 			current_outp <= '0';
@@ -53,7 +54,8 @@ begin
 			else
 				current_outp <= 'Z';
 			end if ;
-			q_out <= current_outp;
+		else
+					
 		end if ;
 	end process jk_ff;
 	

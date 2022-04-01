@@ -1,0 +1,84 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/sixth_lecture/class_example/msim
+Eshift_reg
+Z1 w1647859415
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+Z4 8../vhdl/shift_reg.vhd
+Z5 F../vhdl/shift_reg.vhd
+l0
+L4
+VjINV4>JhRb^<@oCLhOCVP3
+!s100 X72:d]mZ[<0kNHR^Cj3241
+Z6 OV;C;10.5b;63
+32
+Z7 !s110 1647860223
+!i10b 1
+Z8 !s108 1647860223.000000
+Z9 !s90 -reportprogress|300|../vhdl/shift_reg.vhd|
+Z10 !s107 ../vhdl/shift_reg.vhd|
+!i113 1
+Z11 tExplicit 1 CvgOpt 0
+Artl
+R2
+R3
+DEx4 work 9 shift_reg 0 22 jINV4>JhRb^<@oCLhOCVP3
+l19
+L15
+V?Ym?HfBgI35QSjcU^=iC83
+!s100 <I^XPSem@4@AjAPEQ27R<1
+R6
+32
+R7
+!i10b 1
+R8
+R9
+R10
+!i113 1
+R11
+Etb_shift_reg
+Z12 w1647860214
+R2
+R3
+R0
+Z13 8../tb/tb_shift_reg.vhd
+Z14 F../tb/tb_shift_reg.vhd
+l0
+L4
+VUebC6R42Nn52PLlddm9oj0
+!s100 GA[GV4X9B>b5R>T;CBNSN3
+R6
+32
+R7
+!i10b 1
+R8
+Z15 !s90 -reportprogress|300|../tb/tb_shift_reg.vhd|
+Z16 !s107 ../tb/tb_shift_reg.vhd|
+!i113 1
+R11
+Asim
+R2
+R3
+Z17 DEx4 work 12 tb_shift_reg 0 22 UebC6R42Nn52PLlddm9oj0
+l28
+L7
+V[;KimQP7o_gGo;Vz6zj2M0
+!s100 IIkmjPZ___3hB@W=bi1^`1
+R6
+32
+R7
+!i10b 1
+R8
+R15
+R16
+!i113 1
+R11

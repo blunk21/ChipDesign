@@ -9,7 +9,7 @@ z2
 cModel Technology
 Z0 dD:/fourth_lecture/msim
 Ejkflop
-Z1 w1646651267
+Z1 w1647250612
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
 R0
@@ -21,9 +21,9 @@ VE1=N3aYl>5b?L0oX]nFBC0
 !s100 Qgk76Q;iBdK^64iP>4j720
 Z6 OV;C;10.5b;63
 32
-Z7 !s110 1647203116
+Z7 !s110 1647250618
 !i10b 1
-Z8 !s108 1647203116.000000
+Z8 !s108 1647250618.000000
 Z9 !s90 -reportprogress|300|../vhdl/jkflop.vhd|
 Z10 !s107 ../vhdl/jkflop.vhd|
 !i113 1
@@ -34,8 +34,8 @@ R3
 DEx4 work 6 jkflop 0 22 E1=N3aYl>5b?L0oX]nFBC0
 l38
 L34
-V1aQB^:;ze1CeDOEQih5PP2
-!s100 ^Km77`2m:hA8_7d9I83?=1
+VYZT>o^OiQ9dL;23h^b3@L2
+!s100 @12DN@?4BZLeDohcLIg>A3
 R6
 32
 R7
