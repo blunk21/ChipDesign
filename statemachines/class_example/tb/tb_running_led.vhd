@@ -39,6 +39,15 @@ begin
 		fw_bwd_i => 	fw_bwd_i
 	);
 
+
+	process_reset : process
+	begin
+		reset <= '1';
+		wait for 100 ns;
+		reset <= '0';
+		wait;
+	end process process_reset;
+
 	process_clock : process
 	begin
 		clk <= '0';
@@ -46,5 +55,37 @@ begin
 		clk <= '1';
 		wait for 50 ns;
 	end process process_clock;
+
+	process_sim : process
+	begin
+		en_i <= '0';
+		fw_bwd_i <= '0';
+		start_i <= '0';
+		wait for 200 ns;
+		fw_bwd_i <= '1';
+		wait for 500 ns;
+		fw_bwd_i <= '0';
+		en_i <= '0';
+		wait for 500 ns;
+		fw_bwd_i <= '1';
+		wait for 500 ns;
+		fw_bwd_i <= '0';
+		en_i <= '0';
+		start_i <= '1';
+		wait for 500 ns;
+		fw_bwd_i <= '1';
+		wait for 1000 ns;
+		fw_bwd_i <= '0';
+		en_i <= '1';
+		wait for 1000 ns;
+		fw_bwd_i <= '1';
+		wait for 1000 ns;
+		
+
+		
+
+	end process process_sim;
+
+
 	
 end architecture sim;
