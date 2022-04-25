@@ -6,7 +6,7 @@
 -- Author      : Gergely Bereczki <user.email@user.company.com>
 -- Company     : FH Technikum Wie
 -- Created     : Mon Apr 18 10:29:44 2022
--- Last update : Tue Apr 19 16:55:52 2022
+-- Last update : Mon Apr 25 10:58:59 2022
 -- Platform    : Default Part Number
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 -------------------------------------------------------------------------------
@@ -87,7 +87,10 @@ begin
 	process_sim : process
 	begin
 
-		wait for 30 ns; --wait for reset
+		wait for 300 ns; --wait for reset
+		sw_i <= (others => '0');
+		pb_i <= (others => '0');
+		led_i <= (others => '0');
 		dig0_i <= x"01";
 		dig1_i <= x"02";
 		dig2_i <= x"03";
@@ -134,8 +137,5 @@ begin
 			swsync_o => swsync_o,
 			pbsync_o => pbsync_o
 		);
-
-	--cntr_signal <= signal .io_ctrl_tb.DUT.s_setfreq_cntr : std_logic_vector(19 downto 0); 
-	--slow_clock <= signal .io_ctrl_tb.DUT.s_enable_refresh : std_logic ; 
 
 end architecture testbench;

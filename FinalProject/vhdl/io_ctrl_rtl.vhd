@@ -6,7 +6,7 @@
 -- Author      : Gergely Bereczki <sa21x001@technikum-wien.at>
 -- Company     : FH Technikum Wien
 -- Created     : Mon Apr  4 10:52:33 2022
--- Last update : Tue Apr 19 19:05:39 2022
+-- Last update : Mon Apr 25 10:58:25 2022
 -- Platform    : Digilent Basys3 FPGA
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 -------------------------------------------------------------------------------
@@ -14,15 +14,7 @@
 -- Description: IO control unit manages the pusbuttons and switches of the platform this project
 -- is being developed for.
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
--- 								Changelog
---
--- *****************************************************************************
--- 
--- version:			comment:
--- -------- 		--------
--- 0.0.0 			creating skeleton
--- 0.0.1 				
+--------------------------------------------------------------------------------			
 --------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -45,6 +37,7 @@ architecture rtl of io_ctrl is
 	signal sw_tmp           : std_logic_vector(15 downto 0) := (others => '0');
 
 
+
 begin
 
 	p_refresh_display : process (reset_i, clk)
@@ -54,7 +47,7 @@ begin
 
 	begin
 		if (reset_i = '1') then
-			s_setfreq_cntr   <= x"00000";
+			s_setfreq_cntr <= x"00000";
 			--s_enable_refresh <= '0';
 
 		elsif (rising_edge(clk)) then
@@ -66,7 +59,7 @@ begin
 		end if;
 	end process p_refresh_display;
 
-	s_enable_refresh <= '1' when std_logic_vector(unsigned(C_EN_COUNTVAL) / 2) > s_setfreq_cntr else '0';	
+	s_enable_refresh <= '1' when  s_setfreq_cntr = C_EN_COUNTVAL else '0';
 
 	----------------------------------------------------------------------------
 
@@ -75,35 +68,42 @@ begin
 	-- Debounce
 	----------------------------------------------------------------------------
 
-	p_debounce : process (reset_i, s_enable_refresh)
+	p_debounce : process (reset_i, clk)
+
 	begin
 		if (reset_i = '1') then
 			s_switch_sync <= x"0000";
 			s_btn_sync    <= x"0";
-
-		elsif (rising_edge(s_enable_refresh)) then
+			btn_tmp       <= x"0";
+			sw_tmp        <= x"0000";
 			
+
+		elsif (rising_edge(clk)) then
+			if (s_enable_refresh='1') then
 				--------------------------------------------------------------------------------
 				if(btn_tmp = pb_i) then --pushbutton debounce
 					s_btn_sync <= pb_i;
 				else
 					s_btn_sync <= x"0";
+					btn_tmp <= pb_i;
 				end if;
 				--------------------------------------------------------------------------------
 				if (sw_tmp = sw_i) then --switch debounce
 					s_switch_sync <= sw_i;
 				else
 					s_switch_sync <= x"0000";
+					sw_tmp  <= sw_i;
 				end if;
-				btn_tmp <= pb_i;
-				sw_tmp  <= sw_i;
-			-----------------------------------------------------------------------		
-		else 
+			else
+				null;
+			end if;
+		--------------------------------------------------------------------------------		
+		else
 			null;
 		end if;
 
 	end process p_debounce;
-	
+
 
 	swsync_o <= s_switch_sync;
 	pbsync_o <= s_btn_sync;
@@ -113,27 +113,37 @@ begin
 	----------------------------------------------------------------------------
 
 
-	p_control_display : process (reset_i, s_enable_refresh)
+	p_control_display : process (reset_i, clk)
+	variable digit_counter: std_logic_vector(1 downto 0);
 	begin
 		if (reset_i = '1') then
-		elsif (rising_edge(s_enable_refresh)) then
-
-			segments : for i in 0 to 3 loop
-				case (i) is
-					when 0 =>
+			s_ss_sel <= "1111";
+			s_ss     <= x"00";
+			digit_counter:="00";
+		elsif (rising_edge(clk)) then
+			if (s_enable_refresh='1') then
+				case (digit_counter) is
+					when "00" =>
 						s_ss_sel <= "1110";
 						s_ss     <= dig0_i;
-					when 1 =>
+					when "01" =>
 						s_ss_sel <= "1101";
 						s_ss     <= dig1_i;
-					when 2 =>
+					when "10" =>
 						s_ss_sel <= "1011";
 						s_ss     <= dig2_i;
-					when 3 =>
+					when "11" =>
 						s_ss_sel <= "0111";
 						s_ss     <= dig3_i;
+					when others =>
+						s_ss_sel <= "1111";
+						s_ss <= x"00";
+
 				end case;
-			end loop;
+				digit_counter := digit_counter + 1;
+			else
+				null;
+			end if;
 		end if;
 	end process p_control_display;
 	ss_o     <= s_ss;

@@ -10,8 +10,8 @@ add wave -noupdate -expand -group Display /io_ctrl_tb/ss_o
 add wave -noupdate -expand -group Display /io_ctrl_tb/ss_sel_o
 add wave -noupdate -expand -group Display /io_ctrl_tb/DUT/s_ss_sel
 add wave -noupdate -expand -group Display /io_ctrl_tb/DUT/s_ss
-add wave -noupdate -group LEDs /io_ctrl_tb/led_i
-add wave -noupdate -group LEDs /io_ctrl_tb/led_o
+#add wave -noupdate -group LEDs /io_ctrl_tb/led_i
+#add wave -noupdate -group LEDs /io_ctrl_tb/led_o
 add wave -noupdate -group Debouncing /io_ctrl_tb/sw_i
 add wave -noupdate -group Debouncing /io_ctrl_tb/pb_i
 add wave -noupdate -group Debouncing -radix hexadecimal /io_ctrl_tb/DUT/s_switch_sync
@@ -20,7 +20,7 @@ add wave -noupdate -group Debouncing /io_ctrl_tb/swsync_o
 add wave -noupdate -group Debouncing /io_ctrl_tb/pbsync_o
 add wave -noupdate -group Debouncing -radix hexadecimal /io_ctrl_tb/DUT/btn_tmp
 add wave -noupdate -group Debouncing -radix hexadecimal /io_ctrl_tb/DUT/sw_tmp
-add wave -noupdate /io_ctrl_tb/DUT/s_setfreq_cntr
+#add wave -noupdate /io_ctrl_tb/DUT/s_setfreq_cntr
 add wave -noupdate /io_ctrl_tb/DUT/s_enable_refresh
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {4281250 ns} 0}
