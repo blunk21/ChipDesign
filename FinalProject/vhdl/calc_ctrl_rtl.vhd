@@ -6,7 +6,7 @@
 -- Author      : Gergely Bereczki <sa21x001@technikum-wien.at>
 -- Company     : FH Tecnikum Wien
 -- Created     : Sun May  1 12:55:27 2022
--- Last update : Sun May  1 16:36:10 2022
+-- Last update : Mon May  2 10:46:06 2022
 -- Platform    : Digilent Basys3 FPGA
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 --------------------------------------------------------------------------------
@@ -25,8 +25,9 @@
 
 --------------------------------------------------------------------------------
 -- 							Questions 
--- 1. Decoding is not too hardcoded?
--- 2. 
+-- 1. Decoding is not too hardcoded? - move the decoder out of the statemachine in a "central position"
+-- 2. How do you know if buttonl is pressed what are the bit orders? - it's up to me completely to map the btns
+-- 3. How are decimal points handled?
 --------------------------------------------------------------------------------
 
 
@@ -40,6 +41,7 @@ architecture rtl of calc_ctrl is
 	signal s_dig3 : std_logic_vector(7 downto 0);
 	signal s_leds : std_logic_vector(15 downto 0);
 	signal current_state : state;
+
 	alias bcd_dig0 : std_logic_vector(3 downto 0) is swsync_i(3 downto 0);
 	alias bcd_dig1 : std_logic_vector(3 downto 0) is swsync_i(7 downto 4);
 	alias bcd_dig2 : std_logic_vector(3 downto 0) is swsync_i(11 downto 8);
