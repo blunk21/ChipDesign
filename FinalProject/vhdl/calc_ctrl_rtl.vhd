@@ -6,7 +6,7 @@
 -- Author      : Gergely Bereczki <sa21x001@technikum-wien.at>
 -- Company     : FH Tecnikum Wien
 -- Created     : Sun May  1 12:55:27 2022
--- Last update : Mon May  2 10:46:06 2022
+-- Last update : Mon May  9 18:43:37 2022
 -- Platform    : Digilent Basys3 FPGA
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 --------------------------------------------------------------------------------
@@ -17,20 +17,30 @@
 
 --------------------------------------------------------------------------------
 -- 									TODOS 
--- [ ] implement led states
+-- [-] implement led states
 -- [-] decoder for 7 segment
--- [ ] implement state changes
+-- [-] implement state changes
+-- [ ] if there is time, rework the 7seg decoder, so it's not hardcoded
 --------------------------------------------------------------------------------
 
 
 --------------------------------------------------------------------------------
 -- 							Questions 
--- 1. Decoding is not too hardcoded? - move the decoder out of the statemachine in a "central position"
--- 2. How do you know if buttonl is pressed what are the bit orders? - it's up to me completely to map the btns
--- 3. How are decimal points handled?
+-- 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- 								Important Notes
+-- 								
+-- BTNL needs to be connected to pb_sync(3).(MSB)
 --------------------------------------------------------------------------------
 
 
+library ieee;
+use ieee.std_logic_1164.all;
+--use ieee.std_logic_arith.all;
+use IEEE.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 architecture rtl of calc_ctrl is
 
@@ -48,12 +58,15 @@ architecture rtl of calc_ctrl is
 	alias bcd_type : std_logic_vector(3 downto 0) is swsync_i(15 downto 12);
 
 	alias bcd_res0 : std_logic_vector(3 downto 0) is result_i(3 downto 0);
-	alias bcd_res0 : std_logic_vector(3 downto 0) is result_i(7 downto 4);
-	alias bcd_res0 : std_logic_vector(3 downto 0) is result_i(11 downto 8);
-	alias bcd_res0 : std_logic_vector(3 downto 0) is result_i(15 downto 12);
+	alias bcd_res1 : std_logic_vector(3 downto 0) is result_i(7 downto 4);
+	alias bcd_res2 : std_logic_vector(3 downto 0) is result_i(11 downto 8);
+	alias bcd_res3 : std_logic_vector(3 downto 0) is result_i(15 downto 12);
 
 
 begin
+
+
+	led_o <= x"8000" when current_state = STATE_RESULT else x"0000"; 	
 
 	p_interface_fsm : process (reset_i, clk_i)
 	variable btnl : std_logic_vector(3 downto 0) := "1000";
@@ -63,6 +76,31 @@ begin
 	  elsif (rising_edge(clk_i)) then
 		case (current_state) is
 			when STATE_OP1 =>
+				op1_o  <= swsync_i(11 downto 0);
+				if(rising_edge(pbsync_i(3))) then
+					current_state  <=  STATE_OP2;
+				end if;
+
+			when STATE_OP2  =>
+			op2_o  <=  swsync_i(11 downto 0);
+				if(rising_edge(pbsync_i(3))) then
+					current_state  <=  STATE_TYPE;
+				end if;
+			when STATE_TYPE  =>
+				optype_o <= swsync_i(15 downto 12);
+				if(rising_edge(pbsync_i(3))) then
+					current_state  <=  STATE_CALCULATE;
+					start_o <= '1';
+				end if;
+			when STATE_CALCULATE => 
+				start_o <= '0';
+				if(finished_i = '1') then
+					current_state <= STATE_RESULT;
+				end if;
+			when STATE_RESULT => 
+				if(rising_edge(pbsync_i(3))) then
+					current_state  <=  STATE_OP1;
+				end if;
 				
 			when others =>
 				null;
@@ -70,519 +108,529 @@ begin
 	  end if;
 	end process p_interface_fsm;
 
+
+	dig0_o <= s_dig0;
+	dig1_o <= s_dig1;
+	dig2_o <= s_dig2;
+	dig3_o <= s_dig3;
 	p_decode_bcd : process (current_state,swsync_i)
 	begin
 		case (current_state) is
 			when STATE_OP1 =>
-				s_dig3  <= "0110000"; -- 1
-				case (bcd_dig0) is
+				s_dig3  <= "00110000"; -- 1
+				case (TO_INTEGER(unsigned(bcd_dig0))) is
 					when 0 =>
-						s_dig0 <= "1111110";
+						s_dig0 <= "01111110";
 					when 1 =>
-						s_dig0 <= "0110000";
+						s_dig0 <= "00110000";
 					when 2 =>
-						s_dig0 <= "1101101";
+						s_dig0 <= "01101101";
 					when 3 =>
-						s_dig0 <= "1111001"; 
+						s_dig0 <= "01111001"; 
 					when 4 =>
-						s_dig0 <= "0110011";
+						s_dig0 <= "00110011";
 					when 5 =>
-						s_dig0 <= "1011011";
+						s_dig0 <= "01011011";
 					when 6 =>
-						s_dig0 <= "1011111";
+						s_dig0 <= "01011111";
 					when 7 =>
-						s_dig0 <= "1110000"; 
+						s_dig0 <= "01110000"; 
 					when 8 =>
-						s_dig0 <= "1111111";
+						s_dig0 <= "01111111";
 					when 9 =>
-						s_dig0 <= "1111011";
+						s_dig0 <= "01111011";
 					when 10 =>
-						s_dig0 <= "1110111"; 
+						s_dig0 <= "01110111"; 
 					when 11 =>
-						s_dig0 <= "0011111";
+						s_dig0 <= "00011111";
 					when 12 =>
-						s_dig0 <= "1001110"; 
+						s_dig0 <= "01001110"; 
 					when 13 =>
-						s_dig0 <= "0111101"; 
+						s_dig0 <= "00111101"; 
 					when 14 =>
-						s_dig0 <= "1001111";   
+						s_dig0 <= "01001111";   
 					when 15 =>
-						s_dig0 <= "1000111"; 
+						s_dig0 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_dig1) is
+				case (TO_INTEGER(UNSIGNED(bcd_dig1))) is
 					when 0 =>
-						s_dig1 <= "1111110";
+						s_dig1 <= "01111110";
 					when 1 =>
-						s_dig1 <= "0110000";
+						s_dig1 <= "00110000";
 					when 2 =>
-						s_dig1 <= "1101101";
+						s_dig1 <= "01101101";
 					when 3 =>
-						s_dig1 <= "1111001"; 
+						s_dig1 <= "01111001"; 
 					when 4 =>
-						s_dig1 <= "0110011";
+						s_dig1 <= "00110011";
 					when 5 =>
-						s_dig1 <= "1011011";
+						s_dig1 <= "01011011";
 					when 6 =>
-						s_dig1 <= "1011111";
+						s_dig1 <= "01011111";
 					when 7 =>
-						s_dig1 <= "1110000"; 
+						s_dig1 <= "01110000"; 
 					when 8 =>
-						s_dig1 <= "1111111";
+						s_dig1 <= "01111111";
 					when 9 =>
-						s_dig1 <= "1111011";
+						s_dig1 <= "01111011";
 					when 10 =>
-						s_dig1 <= "1110111"; 
+						s_dig1 <= "01110111"; 
 					when 11 =>
-						s_dig1 <= "0011111";
+						s_dig1 <= "00011111";
 					when 12 =>
-						s_dig1 <= "1001110"; 
+						s_dig1 <= "01001110"; 
 					when 13 =>
-						s_dig1 <= "0111101"; 
+						s_dig1 <= "00111101"; 
 					when 14 =>
-						s_dig1 <= "1001111";   
+						s_dig1 <= "01001111";   
 					when 15 =>
-						s_dig1 <= "1000111"; 
+						s_dig1 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_dig2) is
+				case (TO_INTEGER(UNSIGNED(bcd_dig2))) is
 					when 0 =>
-						s_dig2 <= "1111110";
+						s_dig2 <= "01111110";
 					when 1 =>
-						s_dig2 <= "0110000";
+						s_dig2 <= "00110000";
 					when 2 =>
-						s_dig2 <= "1101101";
+						s_dig2 <= "01101101";
 					when 3 =>
-						s_dig2 <= "1111001"; 
+						s_dig2 <= "01111001"; 
 					when 4 =>
-						s_dig2 <= "0110011";
+						s_dig2 <= "00110011";
 					when 5 =>
-						s_dig2 <= "1011011";
+						s_dig2 <= "01011011";
 					when 6 =>
-						s_dig2 <= "1011111";
+						s_dig2 <= "01011111";
 					when 7 =>
-						s_dig2 <= "1110000"; 
+						s_dig2 <= "01110000"; 
 					when 8 =>
-						s_dig2 <= "1111111";
+						s_dig2 <= "01111111";
 					when 9 =>
-						s_dig2 <= "1111011";
+						s_dig2 <= "01111011";
 					when 10 =>
-						s_dig2 <= "1110111"; 
+						s_dig2 <= "01110111"; 
 					when 11 =>
-						s_dig2 <= "0011111";
+						s_dig2 <= "00011111";
 					when 12 =>
-						s_dig2 <= "1001110"; 
+						s_dig2 <= "01001110"; 
 					when 13 =>
-						s_dig2 <= "0111101"; 
+						s_dig2 <= "00111101"; 
 					when 14 =>
-						s_dig2 <= "1001111";   
+						s_dig2 <= "01001111";   
 					when 15 =>
-						s_dig2 <= "1000111"; 
+						s_dig2 <= "01000111"; 
 					when others =>
 						null;
 				end case;
 
 			when STATE_OP2 => 
-				s_dig3  <= "1101101"; -- 1
-				case (bcd_dig0) is
+				s_dig3  <= "01101101"; -- 1
+				case (TO_INTEGER(UNSIGNED(bcd_dig0))) is
 					when 0 =>
-						s_dig0 <= "1111110";
+						s_dig0 <= "01111110";
 					when 1 =>
-						s_dig0 <= "0110000";
+						s_dig0 <= "00110000";
 					when 2 =>
-						s_dig0 <= "1101101";
+						s_dig0 <= "01101101";
 					when 3 =>
-						s_dig0 <= "1111001"; 
+						s_dig0 <= "01111001"; 
 					when 4 =>
-						s_dig0 <= "0110011";
+						s_dig0 <= "00110011";
 					when 5 =>
-						s_dig0 <= "1011011";
+						s_dig0 <= "01011011";
 					when 6 =>
-						s_dig0 <= "1011111";
+						s_dig0 <= "01011111";
 					when 7 =>
-						s_dig0 <= "1110000"; 
+						s_dig0 <= "01110000"; 
 					when 8 =>
-						s_dig0 <= "1111111";
+						s_dig0 <= "01111111";
 					when 9 =>
-						s_dig0 <= "1111011";
+						s_dig0 <= "01111011";
 					when 10 =>
-						s_dig0 <= "1110111"; 
+						s_dig0 <= "01110111"; 
 					when 11 =>
-						s_dig0 <= "0011111";
+						s_dig0 <= "00011111";
 					when 12 =>
-						s_dig0 <= "1001110"; 
+						s_dig0 <= "01001110"; 
 					when 13 =>
-						s_dig0 <= "0111101"; 
+						s_dig0 <= "00111101"; 
 					when 14 =>
-						s_dig0 <= "1001111";   
+						s_dig0 <= "01001111";   
 					when 15 =>
-						s_dig0 <= "1000111"; 
+						s_dig0 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_dig1) is
+				case (TO_INTEGER(UNSIGNED(bcd_dig1))) is
 					when 0 =>
-						s_dig1 <= "1111110";
+						s_dig1 <= "01111110";
 					when 1 =>
-						s_dig1 <= "0110000";
+						s_dig1 <= "00110000";
 					when 2 =>
-						s_dig1 <= "1101101";
+						s_dig1 <= "01101101";
 					when 3 =>
-						s_dig1 <= "1111001"; 
+						s_dig1 <= "01111001"; 
 					when 4 =>
-						s_dig1 <= "0110011";
+						s_dig1 <= "00110011";
 					when 5 =>
-						s_dig1 <= "1011011";
+						s_dig1 <= "01011011";
 					when 6 =>
-						s_dig1 <= "1011111";
+						s_dig1 <= "01011111";
 					when 7 =>
-						s_dig1 <= "1110000"; 
+						s_dig1 <= "01110000"; 
 					when 8 =>
-						s_dig1 <= "1111111";
+						s_dig1 <= "01111111";
 					when 9 =>
-						s_dig1 <= "1111011";
+						s_dig1 <= "01111011";
 					when 10 =>
-						s_dig1 <= "1110111"; 
+						s_dig1 <= "01110111"; 
 					when 11 =>
-						s_dig1 <= "0011111";
+						s_dig1 <= "00011111";
 					when 12 =>
-						s_dig1 <= "1001110"; 
+						s_dig1 <= "01001110"; 
 					when 13 =>
-						s_dig1 <= "0111101"; 
+						s_dig1 <= "00111101"; 
 					when 14 =>
-						s_dig1 <= "1001111";   
+						s_dig1 <= "01001111";   
 					when 15 =>
-						s_dig1 <= "1000111"; 
+						s_dig1 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_dig2) is
+				case (TO_INTEGER(UNSIGNED(bcd_dig2))) is
 					when 0 =>
-						s_dig2 <= "1111110";
+						s_dig2 <= "01111110";
 					when 1 =>
-						s_dig2 <= "0110000";
+						s_dig2 <= "00110000";
 					when 2 =>
-						s_dig2 <= "1101101";
+						s_dig2 <= "01101101";
 					when 3 =>
-						s_dig2 <= "1111001"; 
+						s_dig2 <= "01111001"; 
 					when 4 =>
-						s_dig2 <= "0110011";
+						s_dig2 <= "00110011";
 					when 5 =>
-						s_dig2 <= "1011011";
+						s_dig2 <= "01011011";
 					when 6 =>
-						s_dig2 <= "1011111";
+						s_dig2 <= "01011111";
 					when 7 =>
-						s_dig2 <= "1110000"; 
+						s_dig2 <= "01110000"; 
 					when 8 =>
-						s_dig2 <= "1111111";
+						s_dig2 <= "01111111";
 					when 9 =>
-						s_dig2 <= "1111011";
+						s_dig2 <= "01111011";
 					when 10 =>
-						s_dig2 <= "1110111"; 
+						s_dig2 <= "01110111"; 
 					when 11 =>
-						s_dig2 <= "0011111";
+						s_dig2 <= "00011111";
 					when 12 =>
-						s_dig2 <= "1001110"; 
+						s_dig2 <= "01001110"; 
 					when 13 =>
-						s_dig2 <= "0111101"; 
+						s_dig2 <= "00111101"; 
 					when 14 =>
-						s_dig2 <= "1001111";   
+						s_dig2 <= "01001111";   
 					when 15 =>
-						s_dig2 <= "1000111"; 
+						s_dig2 <= "01000111"; 
 					when others =>
 						null;
 				end case;
 			when STATE_TYPE  => 
-				s_dig3 <= "0011101"; -- 'o'
-				case (bcd_type) is
+				s_dig3 <= "00011101"; -- 'o'
+				case (TO_INTEGER(UNSIGNED(bcd_type))) is
 					when 0 =>
-						s_dig2 <= "1110111";
-						s_dig1 <= "0111101";
-						s_dig0 <= "0111101";
+						s_dig2 <= "01110111";
+						s_dig1 <= "00111101";
+						s_dig0 <= "00111101";
 					when 1 =>
-						s_dig2 <= "0111101";
-						s_dig1 <= "0110000";
-						s_dig0 <= "0011100";
+						s_dig2 <= "00111101";
+						s_dig1 <= "00110000";
+						s_dig0 <= "00011100";
 					when 2 =>
-						s_dig2 <= "0010101";
-						s_dig1 <= "0011101";
-						s_dig0 <= "0001111";
+						s_dig2 <= "00010101";
+						s_dig1 <= "00011101";
+						s_dig0 <= "00001111";
 					when 3 =>
-						s_dig2 <= "0110111";
-						s_dig1 <= "0011101";
-						s_dig0 <= "0000101";
+						s_dig2 <= "00110111";
+						s_dig1 <= "00011101";
+						s_dig0 <= "00000101";
 					when others => 
 						null;
 					end case;
 			when STATE_RESULT => 
-				if (error_i = '0') and (owerflow_i = '0') and (sign_i = '0') then
-					case (bcd_res0) is
+				if (error_i = '0') and (overflow_i = '0') and (sign_i = '0') then
+					case (TO_INTEGER(UNSIGNED(bcd_res0))) is
 					when 0 =>
-						s_dig0 <= "1111110";
+						s_dig0 <= "01111110";
 					when 1 =>
-						s_dig0 <= "0110000";
+						s_dig0 <= "00110000";
 					when 2 =>
-						s_dig0 <= "1101101";
+						s_dig0 <= "01101101";
 					when 3 =>
-						s_dig0 <= "1111001"; 
+						s_dig0 <= "01111001"; 
 					when 4 =>
-						s_dig0 <= "0110011";
+						s_dig0 <= "00110011";
 					when 5 =>
-						s_dig0 <= "1011011";
+						s_dig0 <= "01011011";
 					when 6 =>
-						s_dig0 <= "1011111";
+						s_dig0 <= "01011111";
 					when 7 =>
-						s_dig0 <= "1110000"; 
+						s_dig0 <= "01110000"; 
 					when 8 =>
-						s_dig0 <= "1111111";
+						s_dig0 <= "01111111";
 					when 9 =>
-						s_dig0 <= "1111011";
+						s_dig0 <= "01111011";
 					when 10 =>
-						s_dig0 <= "1110111"; 
+						s_dig0 <= "01110111"; 
 					when 11 =>
-						s_dig0 <= "0011111";
+						s_dig0 <= "00011111";
 					when 12 =>
-						s_dig0 <= "1001110"; 
+						s_dig0 <= "01001110"; 
 					when 13 =>
-						s_dig0 <= "0111101"; 
+						s_dig0 <= "00111101"; 
 					when 14 =>
-						s_dig0 <= "1001111";   
+						s_dig0 <= "01001111";   
 					when 15 =>
-						s_dig0 <= "1000111"; 
+						s_dig0 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_res1) is
+				case (TO_INTEGER(UNSIGNED(bcd_res1))) is
 					when 0 =>
-						s_dig1 <= "1111110";
+						s_dig1 <= "01111110";
 					when 1 =>
-						s_dig1 <= "0110000";
+						s_dig1 <= "00110000";
 					when 2 =>
-						s_dig1 <= "1101101";
+						s_dig1 <= "01101101";
 					when 3 =>
-						s_dig1 <= "1111001"; 
+						s_dig1 <= "01111001"; 
 					when 4 =>
-						s_dig1 <= "0110011";
+						s_dig1 <= "00110011";
 					when 5 =>
-						s_dig1 <= "1011011";
+						s_dig1 <= "01011011";
 					when 6 =>
-						s_dig1 <= "1011111";
+						s_dig1 <= "01011111";
 					when 7 =>
-						s_dig1 <= "1110000"; 
+						s_dig1 <= "01110000"; 
 					when 8 =>
-						s_dig1 <= "1111111";
+						s_dig1 <= "01111111";
 					when 9 =>
-						s_dig1 <= "1111011";
+						s_dig1 <= "01111011";
 					when 10 =>
-						s_dig1 <= "1110111"; 
+						s_dig1 <= "01110111"; 
 					when 11 =>
-						s_dig1 <= "0011111";
+						s_dig1 <= "00011111";
 					when 12 =>
-						s_dig1 <= "1001110"; 
+						s_dig1 <= "01001110"; 
 					when 13 =>
-						s_dig1 <= "0111101"; 
+						s_dig1 <= "00111101"; 
 					when 14 =>
-						s_dig1 <= "1001111";   
+						s_dig1 <= "01001111";   
 					when 15 =>
-						s_dig1 <= "1000111"; 
+						s_dig1 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_res2) is
+				case (TO_INTEGER(UNSIGNED(bcd_res2))) is
 					when 0 =>
-						s_dig2 <= "1111110";
+						s_dig2 <= "01111110";
 					when 1 =>
-						s_dig2 <= "0110000";
+						s_dig2 <= "00110000";
 					when 2 =>
-						s_dig2 <= "1101101";
+						s_dig2 <= "01101101";
 					when 3 =>
-						s_dig2 <= "1111001"; 
+						s_dig2 <= "01111001"; 
 					when 4 =>
-						s_dig2 <= "0110011";
+						s_dig2 <= "00110011";
 					when 5 =>
-						s_dig2 <= "1011011";
+						s_dig2 <= "01011011";
 					when 6 =>
-						s_dig2 <= "1011111";
+						s_dig2 <= "01011111";
 					when 7 =>
-						s_dig2 <= "1110000"; 
+						s_dig2 <= "01110000"; 
 					when 8 =>
-						s_dig2 <= "1111111";
+						s_dig2 <= "01111111";
 					when 9 =>
-						s_dig2 <= "1111011";
+						s_dig2 <= "01111011";
 					when 10 =>
-						s_dig2 <= "1110111"; 
+						s_dig2 <= "01110111"; 
 					when 11 =>
-						s_dig2 <= "0011111";
+						s_dig2 <= "00011111";
 					when 12 =>
-						s_dig2 <= "1001110"; 
+						s_dig2 <= "01001110"; 
 					when 13 =>
-						s_dig2 <= "0111101"; 
+						s_dig2 <= "00111101"; 
 					when 14 =>
-						s_dig2 <= "1001111";   
+						s_dig2 <= "01001111";   
 					when 15 =>
-						s_dig2 <= "1000111"; 
+						s_dig2 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_res3) is
+				case (TO_INTEGER(UNSIGNED(bcd_res3))) is
 					when 0 =>
-						s_dig3 <= "1111110";
+						s_dig3 <= "01111110";
 					when 1 =>
-						s_dig3 <= "0110000";
+						s_dig3 <= "00110000";
 					when 2 =>
-						s_dig3 <= "1101101";
+						s_dig3 <= "01101101";
 					when 3 =>
-						s_dig3 <= "1111001"; 
+						s_dig3 <= "01111001"; 
 					when 4 =>
-						s_dig3 <= "0110011";
+						s_dig3 <= "00110011";
 					when 5 =>
-						s_dig3 <= "1011011";
+						s_dig3 <= "01011011";
 					when 6 =>
-						s_dig3 <= "1011111";
+						s_dig3 <= "01011111";
 					when 7 =>
-						s_dig3 <= "1110000"; 
+						s_dig3 <= "01110000"; 
 					when 8 =>
-						s_dig3 <= "1111111";
+						s_dig3 <= "01111111";
 					when 9 =>
-						s_dig3 <= "1111011";
+						s_dig3 <= "01111011";
 					when 10 =>
-						s_dig3 <= "1110111"; 
+						s_dig3 <= "01110111"; 
 					when 11 =>
-						s_dig3 <= "0011111";
+						s_dig3 <= "00011111";
 					when 12 =>
-						s_dig3 <= "1001110"; 
+						s_dig3 <= "01001110"; 
 					when 13 =>
-						s_dig3 <= "0111101"; 
+						s_dig3 <= "00111101"; 
 					when 14 =>
-						s_dig3 <= "1001111";   
+						s_dig3 <= "01001111";   
 					when 15 =>
-						s_dig3 <= "1000111"; 
+						s_dig3 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				elsif (error_i = '0') and (owerflow_i = '0') and (sign_i = '1') then
-					s_dig3 <= "0000001"; -- '-'
-					case (bcd_res0) is
+				elsif (error_i = '0') and (overflow_i = '0') and (sign_i = '1') then
+					s_dig3 <= "00000001"; -- '-'
+					case (TO_INTEGER(UNSIGNED(bcd_res0))) is
 					when 0 =>
-						s_dig0 <= "1111110";
+						s_dig0 <= "01111110";
 					when 1 =>
-						s_dig0 <= "0110000";
+						s_dig0 <= "00110000";
 					when 2 =>
-						s_dig0 <= "1101101";
+						s_dig0 <= "01101101";
 					when 3 =>
-						s_dig0 <= "1111001"; 
+						s_dig0 <= "01111001"; 
 					when 4 =>
-						s_dig0 <= "0110011";
+						s_dig0 <= "00110011";
 					when 5 =>
-						s_dig0 <= "1011011";
+						s_dig0 <= "01011011";
 					when 6 =>
-						s_dig0 <= "1011111";
+						s_dig0 <= "01011111";
 					when 7 =>
-						s_dig0 <= "1110000"; 
+						s_dig0 <= "01110000"; 
 					when 8 =>
-						s_dig0 <= "1111111";
+						s_dig0 <= "01111111";
 					when 9 =>
-						s_dig0 <= "1111011";
+						s_dig0 <= "01111011";
 					when 10 =>
-						s_dig0 <= "1110111"; 
+						s_dig0 <= "01110111"; 
 					when 11 =>
-						s_dig0 <= "0011111";
+						s_dig0 <= "00011111";
 					when 12 =>
-						s_dig0 <= "1001110"; 
+						s_dig0 <= "01001110"; 
 					when 13 =>
-						s_dig0 <= "0111101"; 
+						s_dig0 <= "00111101"; 
 					when 14 =>
-						s_dig0 <= "1001111";   
+						s_dig0 <= "01001111";   
 					when 15 =>
-						s_dig0 <= "1000111"; 
+						s_dig0 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_res1) is
+				case (TO_INTEGER(UNSIGNED(bcd_res1))) is
 					when 0 =>
-						s_dig1 <= "1111110";
+						s_dig1 <= "01111110";
 					when 1 =>
-						s_dig1 <= "0110000";
+						s_dig1 <= "00110000";
 					when 2 =>
-						s_dig1 <= "1101101";
+						s_dig1 <= "01101101";
 					when 3 =>
-						s_dig1 <= "1111001"; 
+						s_dig1 <= "01111001"; 
 					when 4 =>
-						s_dig1 <= "0110011";
+						s_dig1 <= "00110011";
 					when 5 =>
-						s_dig1 <= "1011011";
+						s_dig1 <= "01011011";
 					when 6 =>
-						s_dig1 <= "1011111";
+						s_dig1 <= "01011111";
 					when 7 =>
-						s_dig1 <= "1110000"; 
+						s_dig1 <= "01110000"; 
 					when 8 =>
-						s_dig1 <= "1111111";
+						s_dig1 <= "01111111";
 					when 9 =>
-						s_dig1 <= "1111011";
+						s_dig1 <= "01111011";
 					when 10 =>
-						s_dig1 <= "1110111"; 
+						s_dig1 <= "01110111"; 
 					when 11 =>
-						s_dig1 <= "0011111";
+						s_dig1 <= "00011111";
 					when 12 =>
-						s_dig1 <= "1001110"; 
+						s_dig1 <= "01001110"; 
 					when 13 =>
-						s_dig1 <= "0111101"; 
+						s_dig1 <= "00111101"; 
 					when 14 =>
-						s_dig1 <= "1001111";   
+						s_dig1 <= "01001111";   
 					when 15 =>
-						s_dig1 <= "1000111"; 
+						s_dig1 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				case (bcd_res2) is
+				case (TO_INTEGER(UNSIGNED(bcd_res2))) is
 					when 0 =>
-						s_dig2 <= "1111110";
+						s_dig2 <= "01111110";
 					when 1 =>
-						s_dig2 <= "0110000";
+						s_dig2 <= "00110000";
 					when 2 =>
-						s_dig2 <= "1101101";
+						s_dig2 <= "01101101";
 					when 3 =>
-						s_dig2 <= "1111001"; 
+						s_dig2 <= "01111001"; 
 					when 4 =>
-						s_dig2 <= "0110011";
+						s_dig2 <= "00110011";
 					when 5 =>
-						s_dig2 <= "1011011";
+						s_dig2 <= "01011011";
 					when 6 =>
-						s_dig2 <= "1011111";
+						s_dig2 <= "01011111";
 					when 7 =>
-						s_dig2 <= "1110000"; 
+						s_dig2 <= "01110000"; 
 					when 8 =>
-						s_dig2 <= "1111111";
+						s_dig2 <= "01111111";
 					when 9 =>
-						s_dig2 <= "1111011";
+						s_dig2 <= "01111011";
 					when 10 =>
-						s_dig2 <= "1110111"; 
+						s_dig2 <= "01110111"; 
 					when 11 =>
-						s_dig2 <= "0011111";
+						s_dig2 <= "00011111";
 					when 12 =>
-						s_dig2 <= "1001110"; 
+						s_dig2 <= "01001110"; 
 					when 13 =>
-						s_dig2 <= "0111101"; 
+						s_dig2 <= "00111101"; 
 					when 14 =>
-						s_dig2 <= "1001111";   
+						s_dig2 <= "01001111";   
 					when 15 =>
-						s_dig2 <= "1000111"; 
+						s_dig2 <= "01000111"; 
 					when others =>
 						null;
 				end case;
-				elsif (error_i = '0') and (owerflow_i = '1')  then
-					s_dig0 <= "0011101";
-					s_dig1 <= "0011101";
-					s_dig2 <= "0011101";
-					s_dig3 <= "0011101";
+				elsif (error_i = '0') and (overflow_i = '1')  then
+					s_dig0 <= "00011101";
+					s_dig1 <= "00011101";
+					s_dig2 <= "00011101";
+					s_dig3 <= "00011101";
 				elsif (error_i = '1') then
-					s_dig0 <= "0000101";
-					s_dig1 <= "0000101";
-					s_dig2 <= "1001111";
-					s_dig3 <= "0000000";
+					s_dig0 <= "00000101";
+					s_dig1 <= "00000101";
+					s_dig2 <= "01001111";
+					s_dig3 <= "00000000";
 				end if;
+			when STATE_CALCULATE => 
+				s_dig0 <= "00000000";
+				s_dig1 <= "00000000";
+				s_dig2 <= "00000000";
+				s_dig3 <= "00000000";
 			when others =>
 				null;
 		end case;

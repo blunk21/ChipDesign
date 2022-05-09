@@ -6,7 +6,7 @@
 -- Author      : Gergely Bereczki <sa21x001@technikum-wien.at>
 -- Company     : FH Tecnikum Wien
 -- Created     : Sun May  1 12:16:38 2022
--- Last update : Sun May  1 13:12:21 2022
+-- Last update : Mon May  9 09:36:35 2022
 -- Platform    : Digilent Basys3 FPGA
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 --------------------------------------------------------------------------------
@@ -14,6 +14,13 @@
 -- which is for providing the neccessary operands for the ALU while also keeping it 
 -- in sync wit the IO control unit.
 --------------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all;
+--use ieee.std_logic_arith.all;
+use IEEE.std_logic_unsigned.all;
+use ieee.numeric_std.all;
+
 
 entity calc_ctrl is
 	port (
