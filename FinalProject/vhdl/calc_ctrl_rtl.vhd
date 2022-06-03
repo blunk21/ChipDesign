@@ -6,7 +6,7 @@
 -- Author      : Gergely Bereczki <sa21x001@technikum-wien.at>
 -- Company     : FH Tecnikum Wien
 -- Created     : Sun May  1 12:55:27 2022
--- Last update : Mon May  9 18:43:37 2022
+-- Last update : Tue May 31 18:07:00 2022
 -- Platform    : Digilent Basys3 FPGA
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 --------------------------------------------------------------------------------
@@ -20,7 +20,7 @@
 -- [-] implement led states
 -- [-] decoder for 7 segment
 -- [-] implement state changes
--- [ ] if there is time, rework the 7seg decoder, so it's not hardcoded
+-- [x] if there is time, rework the 7seg decoder, so it's not hardcoded
 --------------------------------------------------------------------------------
 
 
@@ -77,28 +77,28 @@ begin
 		case (current_state) is
 			when STATE_OP1 =>
 				op1_o  <= swsync_i(11 downto 0);
-				if(rising_edge(pbsync_i(3))) then
+				if(falling_edge(pbsync_i(3))) then
 					current_state  <=  STATE_OP2;
 				end if;
 
 			when STATE_OP2  =>
 			op2_o  <=  swsync_i(11 downto 0);
-				if(rising_edge(pbsync_i(3))) then
+				if(falling_edge(pbsync_i(3))) then
 					current_state  <=  STATE_TYPE;
 				end if;
 			when STATE_TYPE  =>
 				optype_o <= swsync_i(15 downto 12);
-				if(rising_edge(pbsync_i(3))) then
+				if(falling_edge(pbsync_i(3))) then
 					current_state  <=  STATE_CALCULATE;
 					start_o <= '1';
 				end if;
 			when STATE_CALCULATE => 
-				start_o <= '0';
 				if(finished_i = '1') then
+					start_o <= '0';
 					current_state <= STATE_RESULT;
 				end if;
 			when STATE_RESULT => 
-				if(rising_edge(pbsync_i(3))) then
+				if(falling_edge(pbsync_i(3))) then
 					current_state  <=  STATE_OP1;
 				end if;
 				
@@ -113,7 +113,7 @@ begin
 	dig1_o <= s_dig1;
 	dig2_o <= s_dig2;
 	dig3_o <= s_dig3;
-	p_decode_bcd : process (current_state,swsync_i)
+	p_decode_bcd : process (current_state,swsync_i,pbsync_i)
 	begin
 		case (current_state) is
 			when STATE_OP1 =>
@@ -228,7 +228,7 @@ begin
 				end case;
 
 			when STATE_OP2 => 
-				s_dig3  <= "01101101"; -- 1
+				s_dig3  <= "01101101"; -- 2
 				case (TO_INTEGER(UNSIGNED(bcd_dig0))) is
 					when 0 =>
 						s_dig0 <= "01111110";
@@ -341,19 +341,19 @@ begin
 				s_dig3 <= "00011101"; -- 'o'
 				case (TO_INTEGER(UNSIGNED(bcd_type))) is
 					when 0 =>
-						s_dig2 <= "01110111";
+						s_dig2 <= "01110111"; --add
 						s_dig1 <= "00111101";
 						s_dig0 <= "00111101";
 					when 1 =>
-						s_dig2 <= "00111101";
-						s_dig1 <= "00110000";
-						s_dig0 <= "00011100";
+						s_dig2 <= "00000000"; --di(v)
+						s_dig1 <= "00111101";
+						s_dig0 <= "00110000";
 					when 2 =>
-						s_dig2 <= "00010101";
-						s_dig1 <= "00011101";
-						s_dig0 <= "00001111";
+						s_dig2 <= "00000000"; --no(t) 
+						s_dig1 <= "00010101";
+						s_dig0 <= "00011101";
 					when 3 =>
-						s_dig2 <= "00110111";
+						s_dig2 <= "01001111"; --Eor
 						s_dig1 <= "00011101";
 						s_dig0 <= "00000101";
 					when others => 

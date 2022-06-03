@@ -6,7 +6,7 @@
 -- Author      : Gergely Bereczki <sa21x001@technikum-wien.at>
 -- Company     : FH Technikum Wien
 -- Created     : Mon Apr  4 10:52:33 2022
--- Last update : Mon Apr 25 10:58:25 2022
+-- Last update : Mon May 30 16:22:31 2022
 -- Platform    : Digilent Basys3 FPGA
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 -------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ architecture rtl of io_ctrl is
 
 begin
 
-	p_refresh_display : process (reset_i, clk)
+	p_refresh_display : process (reset_i, clk_i)
 		----------------------------------------------------------------------------
 		-- 1 kHz clock
 		----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ begin
 			s_setfreq_cntr <= x"00000";
 			--s_enable_refresh <= '0';
 
-		elsif (rising_edge(clk)) then
+		elsif (rising_edge(clk_i)) then
 			if (s_setfreq_cntr >= C_EN_COUNTVAL) then
 				s_setfreq_cntr <= x"00000";
 			else
@@ -68,7 +68,7 @@ begin
 	-- Debounce
 	----------------------------------------------------------------------------
 
-	p_debounce : process (reset_i, clk)
+	p_debounce : process (reset_i, clk_i)
 
 	begin
 		if (reset_i = '1') then
@@ -78,7 +78,7 @@ begin
 			sw_tmp        <= x"0000";
 			
 
-		elsif (rising_edge(clk)) then
+		elsif (rising_edge(clk_i)) then
 			if (s_enable_refresh='1') then
 				--------------------------------------------------------------------------------
 				if(btn_tmp = pb_i) then --pushbutton debounce
@@ -113,14 +113,14 @@ begin
 	----------------------------------------------------------------------------
 
 
-	p_control_display : process (reset_i, clk)
+	p_control_display : process (reset_i, clk_i)
 	variable digit_counter: std_logic_vector(1 downto 0);
 	begin
 		if (reset_i = '1') then
 			s_ss_sel <= "1111";
 			s_ss     <= x"00";
 			digit_counter:="00";
-		elsif (rising_edge(clk)) then
+		elsif (rising_edge(clk_i)) then
 			if (s_enable_refresh='1') then
 				case (digit_counter) is
 					when "00" =>

@@ -1,0 +1,96 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/FinalProject/msim/sim_alu
+Ealu
+w1652602978
+Z0 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z2 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z3 dD:/finalProject/msim/sim_alu
+8../../vhdl/alu_.vhd
+F../../vhdl/alu_.vhd
+l0
+L20
+Vc4bF:oi:4AV2o[jB[j_CE1
+!s100 T;gE>9CIIULaSeP[@8_2U0
+Z4 OV;C;10.5b;63
+32
+Z5 !s110 1653914143
+!i10b 1
+!s108 1653914142.000000
+!s90 -reportprogress|300|../../vhdl/alu_.vhd|
+!s107 ../../vhdl/alu_.vhd|
+!i113 1
+Z6 tExplicit 1 CvgOpt 0
+Artl
+w1653914141
+Z7 DEx4 work 3 alu 0 22 c4bF:oi:4AV2o[jB[j_CE1
+DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+R0
+R1
+R2
+8../../vhdl/alu_rtl.vhd
+F../../vhdl/alu_rtl.vhd
+l67
+L29
+VC;[Ea?RdU?[FAk32DYe;`2
+!s100 ;D=oH=j6_]=EY0Cg]YkJ<3
+R4
+32
+R5
+!i10b 1
+Z8 !s108 1653914143.000000
+!s90 -reportprogress|300|../../vhdl/alu_rtl.vhd|
+!s107 ../../vhdl/alu_rtl.vhd|
+!i113 1
+R6
+Ealu_tb
+Z9 w1653913914
+Z10 DPx4 ieee 16 std_logic_textio 0 22 V5TSK`;aJKC<l]CEg1>mz1
+R0
+R1
+R2
+R3
+Z11 8../../tb/alu_tb.vhd
+Z12 F../../tb/alu_tb.vhd
+l0
+L24
+Vk`8l;9;Yl[m8kRidkCR6h3
+!s100 ;HU2]JWl?@JeZ<R90>e7:3
+R4
+32
+R5
+!i10b 1
+R8
+Z13 !s90 -reportprogress|300|../../tb/alu_tb.vhd|
+Z14 !s107 ../../tb/alu_tb.vhd|
+!i113 1
+R6
+Atestbench
+R7
+R10
+R0
+R1
+R2
+Z15 DEx4 work 6 alu_tb 0 22 k`8l;9;Yl[m8kRidkCR6h3
+l51
+L30
+Z16 V92[eFB[5[MXSRa5z[1Za21
+Z17 !s100 bZPCnN32SiG0Z7@^XU>i]0
+R4
+32
+R5
+!i10b 1
+R8
+R13
+R14
+!i113 1
+R6

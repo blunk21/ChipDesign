@@ -6,7 +6,7 @@
 -- Author      : Gergely Bereczki <sa21x001@technikum-wien.at>
 -- Company     : FH Technikum Wien
 -- Created     : Mon Apr  4 10:26:33 2022
--- Last update : Tue Apr 19 11:22:19 2022
+-- Last update : Mon May 30 16:22:28 2022
 -- Platform    : Digilent Basys3 FPGA
 -- Standard    : <VHDL-2008 | VHDL-2002 | VHDL-1993 | VHDL-1987>
 --------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ use ieee.std_logic_1164.all;
 
 entity io_ctrl is
 	port (
-		clk     : in std_logic;
+		clk_i     : in std_logic;
 		reset_i : in std_logic;
 
 		dig0_i : in std_logic_vector(7 downto 0);
